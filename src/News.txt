@@ -1,0 +1,81 @@
+MarkEdit for Windows
+is copyright © 2010-2011
+by AKON & TerraNoNames.
+http://mykaralw.narod.ru/
+Version 1.0.0.3, Feb 12 2011.
+ 
+[12.02.2011]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.3"
+* добавлен скрипт конфигурирования (configure) для сборки.
+* добавлена документация разработки (SRC\*\*.txt).
+
+
+[04.02.2011]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.3"
+* добавлен инструмен линейной интерполяции.
+* обновлена документация.
+
+
+[29.01.2011]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.3"
+* добавлены инструмены расчета стягивающих хорд.
+
+
+[22.01.2011]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.3"
+* добавлены инструмены расчета вертикального профиля.
+
+
+[19.01.2011]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.2"
+! исправлена ошибка(ляп) в расчете смещения пункта от оси трассы на прямой.
+
+
+[15.01.2011]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.2"
+! изменен расчет пикетажа на переходной кривой, приведен в соответствие с разбивочной осью:
+    PKpz = PKnsk+lpk(pz) = PKnsk+l(pz)+l(pz)^5/(60*C^2) = PKnsk+l(pz)*[1+l(pz)^4/(60*C^2)]
+* добавлен инструмен настройки точности округления результата.
+
+
+[30.12.2010]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.1"
+! изменена инициализация меню, что сделало C-код совместимым с Pelles C for Windows:
+	Wc.lpszMenuName    = MAKEINTRESOURCE(IDMAINMENU)
+* наведена логика (не до конца) в операциях открытия-сохранения текстовых файлов 
+* исходный код разбит на модули, что улучшило его читаемость:
+	MarkEdit.h
+	MarkEdit.Bas
+	medlgabout.basi
+	medlgos.basi
+	medlgrcc.basi
+	medlgrl.basi
+	medlgrsc.basi
+	medlgtcc.basi
+	medlgtl.basi
+	medlgtsc.basi
+	megsedit.basi
+	meids.basi
+	memark.basi
+	memath.basi
+! маркшейдерские вычисления переделаны в вызываемые функции (контроль ляпов):
+	Function MarkLen(tY As Double, tX As Double) As Double
+	Function MarkPK(tY As Double,tX As Double, tSin As Double,tCos As Double) As Double
+	Function MarkDelta(tY As Double,tX As Double, tSin As Double,tCos As Double) As Double
+	Function MarkSCFi(tL As Double,tC As Double) As Double
+	Function MarkSCX(tL As Double,tC As Double) As Double
+	Function MarkSCY(tL As Double,tC As Double) As Double
+	Function MarkSCa1(tL As Double,tC As Double) As Double
+	Function MarkSCa(tL As Double,tC As Double) As Double
+	Function MarkSCZ(tL As Double,tC As Double) As Double
+	Function MarkSCddX(tL As Double,tC As Double) As Double
+	Function MarkSChigh(Xsk As Double, Ysk As Double, FIsk As Double, y0pz As Double) As Double
+	Function MarkSCLpk(tL As Double, tC As Double) As Double
+! доопределены границы переходной кривой:
+	0 <= x0pz <= Xsk+(Ysk-y0pz)*tan(FIsk)
+! добавлена документация к программе
+
+
+[20.12.2010]  Akon <mykaralw@yandex.ru>
+ "MarkEdit v.1.0.0.0"
+* стартовая версия программы

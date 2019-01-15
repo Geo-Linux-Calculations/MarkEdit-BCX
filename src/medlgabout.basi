@@ -1,0 +1,15 @@
+Function AboutDlg (hDlg AS HWND, Msg, wParam, lParam)
+
+  Select Case Msg
+    Case WM_INITDIALOG
+    Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

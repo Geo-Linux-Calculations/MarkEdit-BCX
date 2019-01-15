@@ -1,0 +1,60 @@
+SUB SetText (hWnd AS HWND,Txt$)
+  EmSetText (hWnd,Txt$)
+END SUB
+
+FUNCTION GetText$ (hWnd AS HWND)
+  FUNCTION = EmGetText$(hWnd)
+END FUNCTION
+
+SUB AppendText (hWnd AS HWND,Txt$)
+  EmAddText(hWnd,Txt$)
+END SUB
+
+' -----------------------------------------------------------------------------
+'  TITLE: EmGetTextLength
+' AUTHOR: MrBCX - Kevin Diggins
+'   DESC: Retrieve the length of all text in an edit control.
+' SYNTAX: nLen = EmGetTextLength(hEdit)
+'
+FUNCTION EmGetTextLength( hEdit AS HANDLE) AS LONG
+  FUNCTION = SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0)
+END FUNCTION
+
+' -----------------------------------------------------------------------------
+'  TITLE: EmGetText 
+' AUTHOR: MrBCX - Kevin Diggins
+'   DESC: Retrieve the text from an edit control.
+' SYNTAX: Text$ = EmGetText(hEdit)
+'
+FUNCTION EmGetText$ ( hEdit AS HANDLE)
+  LOCAL nLen AS LONG
+  LOCAL Buffer$
+  nLen = EmGetTextLength(hEdit)
+  Buffer$ = SPACE$(nLen + 1)
+  GetWindowText (hEdit,  Buffer$, nLen + 1)
+  FUNCTION = Buffer$
+END FUNCTION
+
+' -----------------------------------------------------------------------------
+'  TITLE: EmSetText 
+' AUTHOR: MrBCX - Kevin Diggins
+'   DESC: Set the text of an edit control.
+' SYNTAX: EmSetText hEdit, text$
+'
+SUB EmSetText ( hEdit AS HANDLE, text$)
+  SetWindowText (hEdit,text$)
+END SUB
+
+' -----------------------------------------------------------------------------
+'  TITLE: EmAddText 
+' AUTHOR: Andreas Günther andreasguenther5@aol.com
+'   DESC: Append a string to the End of Text in a Edit or RichEdit Control
+' SYNTAX: EmAddText hEdit, text$
+'
+SUB EmAddText(hEdit AS HANDLE, text$)
+LOCAL nChars%
+ nChars = GetWindowTextLength(hEdit)
+ SetFocus (hEdit)
+ SendMessage(hEdit, EM_SETSEL, (WPARAM)nChars%, (LPARAM)nChars%)
+ SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM) ((LPSTR) text$))
+END SUB

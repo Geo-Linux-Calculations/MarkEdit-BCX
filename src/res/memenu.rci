@@ -1,0 +1,62 @@
+IDMAINMENU MENU
+begin
+	POPUP "&File"
+	begin
+		MENUITEM "&New", IDM_NEW
+        MENUITEM "&Open", IDM_OPEN
+        MENUITEM "&Save", IDM_SAVE
+        MENUITEM "Save &As...", IDM_SAVEAS
+        MENUITEM "", 32
+        MENUITEM "&Print", IDM_PRINT
+        MENUITEM "", 32
+        MENUITEM "&E&xit", IDM_EXIT
+	end
+	POPUP "&Edit"
+	begin
+        MENUITEM "&Undo  Ctrl+Z", IDM_UNDO
+        MENUITEM "&Select All", IDM_SELECTALL
+        MENUITEM "", 32
+        MENUITEM "Cu&t  Ctrl+X", IDM_CUT
+        MENUITEM "&Copy  Ctrl+C", IDM_COPY
+        MENUITEM "&Paste  Ctrl+V", IDM_PASTE
+	end
+	POPUP "&Mark"
+	begin
+		POPUP "&Trace"
+		begin
+			MENUITEM "&Linear", IDM_TLD
+			MENUITEM "&Circular", IDM_TCD
+			MENUITEM "C&onnecting", IDM_TSD
+		end
+		POPUP "&Rail"
+		begin
+			MENUITEM "&Linear", IDM_RLD
+			MENUITEM "&Circular", IDM_RCD
+			MENUITEM "C&onnecting", IDM_RSD
+		end
+		POPUP "&Elev"
+		begin
+			MENUITEM "&Linear", IDM_EVLD
+			MENUITEM "&Circular", IDM_EVCD
+		end
+		POPUP "&Chords"
+		begin
+			MENUITEM "&Circular", IDM_CHCD
+			MENUITEM "C&onnecting", IDM_CHSD
+		end
+		MENUITEM "&Interpolation", IDM_INTER
+	end
+	POPUP "&Settings"
+	begin
+        MENUITEM "&Options", IDM_OPTION
+	end
+	POPUP "&Help"
+	begin
+        MENUITEM "&About", IDM_ABOUT
+	end
+end
+
+IDACCEL ACCELERATORS
+begin
+    81, IDM_EXIT, VIRTKEY, CONTROL
+end

@@ -1,0 +1,4 @@
+'control constants
+#include "MarkEdit.h"
+
+CONST   EDIT_1          = 111

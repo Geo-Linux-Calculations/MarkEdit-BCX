@@ -1,0 +1,235 @@
+Function DlgTCD (hDlg AS HWND, Msg, wParam, lParam)
+GLOBAL  hwSelect As HWND
+GLOBAL  strTxt$
+GLOBAL  strBuffer$
+GLOBAL  PK0 As Double
+GLOBAL  PKn As Double
+GLOBAL  PKpz As Double
+GLOBAL  PKpz1 As Double
+GLOBAL  PKpz2 As Double
+GLOBAL  dPK As Double
+GLOBAL  sPK As Double
+GLOBAL  deltapz As Double
+GLOBAL  deltapz1 As Double
+GLOBAL  deltapz2 As Double
+GLOBAL  Y0 As Double
+GLOBAL  Yn As Double
+GLOBAL  Yck As Double
+GLOBAL  dY As Double
+GLOBAL  Ypz As Double
+GLOBAL  X0 As Double
+GLOBAL  Xn As Double
+GLOBAL  Xck As Double
+GLOBAL  dX As Double
+GLOBAL  Xpz As Double
+GLOBAL  NamePZ$
+GLOBAL  Rkk As Double
+GLOBAL  R0 As Double
+GLOBAL  Rn As Double
+GLOBAL  Rpz As Double
+GLOBAL  Zsk As Double
+GLOBAL  Qkk As Double
+GLOBAL  A0 As Double
+GLOBAL  An As Double
+GLOBAL  Apz As Double
+GLOBAL  dA0 As Double
+GLOBAL  dAn As Double
+GLOBAL  Beta As Double
+GLOBAL  Lpk As Double
+GLOBAL  sBeta As Double
+GLOBAL  Agms$
+'LenFrac = 4
+
+  Select Case Msg
+    Case WM_INITDIALOG
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PK0)
+      strTxt$ = MathCstr$(PK0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Y0)
+      strTxt$ = MathCstr$(Y0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_X0)
+      strTxt$ = MathCstr$(X0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PKn)
+      strTxt$ = MathCstr$(PKn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Yn)
+      strTxt$ = MathCstr$(Yn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xn)
+      strTxt$ = MathCstr$(Xn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Yck)
+      strTxt$ = MathCstr$(Yck,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xck)
+      strTxt$ = MathCstr$(Xck,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Rkk)
+      strTxt$ = MathCstr$(Rkk,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Zkk)
+      strTxt$ = MathCstr$(Zsk,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Qkk)
+      strTxt$ = MathCstr$(Qkk,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_NamePz)
+      strTxt$=NamePZ$
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Ypz)
+      strTxt$ = MathCstr$(Ypz,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xpz)
+      strTxt$ = MathCstr$(Xpz,LenFrac)
+      SetText (hwSelect,strTxt$)
+      Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then
+      strBuffer$ = ""
+      strBuffer$ = strBuffer$ & (CRLF$ & "Calculation on circular crooked trace" & CRLF$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PK0)
+      strTxt$ = GetText$(hwSelect)
+      PK0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "PK0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Y0)
+      strTxt$ = GetText$(hwSelect)
+      Y0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Y0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_X0)
+      strTxt$ = GetText$(hwSelect)
+      X0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   X0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PKn)
+      strTxt$ = GetText$(hwSelect)
+      PKn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "PKn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Yn)
+      strTxt$ = GetText$(hwSelect)
+      Yn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Yn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xn)
+      strTxt$ = GetText$(hwSelect)
+      Xn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Xn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Yck)
+      strTxt$ = GetText$(hwSelect)
+      Yck = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "CENTR: Yck=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xck)
+      strTxt$ = GetText$(hwSelect)
+      Xck = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Xck=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Rkk)
+      strTxt$ = GetText$(hwSelect)
+      Rkk = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "R=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Zkk)
+      strTxt$ = GetText$(hwSelect)
+      Zsk = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   z=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Qkk)
+      strTxt$ = GetText$(hwSelect)
+      Qkk = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   q=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_NamePz)
+      strTxt$ = GetText$(hwSelect)
+      NamePZ$ = strTxt$
+      strBuffer$ = strBuffer$ & (CRLF$ & "PZ: " & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Ypz)
+      strTxt$ = GetText$(hwSelect)
+      Ypz = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Ypz=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xpz)
+      strTxt$ = GetText$(hwSelect)
+      Xpz = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Xpz=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer = ""
+      
+      sPK = MathSign(PKn-PK0)
+      dY = Y0-Yck
+      dX = X0-Xck
+      R0 = MarkLen(dY,dX)
+      A0 = MathAtan(dY,dX)
+      dY = Yn-Yck
+      dX = Xn-Xck
+      Rn = MarkLen(dY,dX)
+      An = MathAtan(dY,dX)
+      Beta = An-A0
+      If Beta<0 Then Beta = MathPI(2.0)+Beta
+      If Beta>MathPI(1.0) Then Beta = Beta-MathPI(2.0)
+      sBeta = 1
+      If Beta<0 Then sBeta = -1
+      Lpk = sBeta*Rkk*Beta
+
+      strBuffer$ = ""
+      strTxt$ = MathCstr$(R0,LenFrac)
+      Agms$ = MathRadToGMS(A0)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Ankk=" & Agms$ & "   Rnkk=" & strTxt$)
+      strTxt$ = MathCstr$(Rn,LenFrac)
+      Agms$ = MathRadToGMS(An)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Akkk=" & Agms$ & "   Rkkk=" & strTxt$)
+      Agms$ = MathRadToGMS(Beta)
+      strTxt$ = MathCstr$(Lpk,LenFrac)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Beta=" & Agms$ & "   Lkk=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+
+      dY = Ypz-Yck
+      dX = Xpz-Xck
+      Apz = MathAtan(dY,dX)
+      Rpz = MarkLen(dY,dX)
+      dA0 = Apz-A0
+      If dA0<0 Then dA0 = MathPI(2.0)+dA0
+      If dA0>MathPI(1.0) Then dA0 = dA0-MathPI(2.0)
+      dAn = Apz-An
+      If dAn<0 Then dAn = MathPI(2.0)+dAn
+      If dAn>MathPI(1.0) Then dAn = dAn-MathPI(2.0)
+
+      strBuffer$ = ""
+      Agms$ = MathRadToGMS(Apz)
+      strTxt$ = MathCstr$(Rpz,LenFrac)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Apz=" & Agms$ & "   Rpz=" & strTxt$)
+
+      If ((Abs(dA0)>Abs(Beta)) OR (Abs(dAn)>Abs(Beta))) Then
+        PKpz = 0
+        deltapz = 0
+        strBuffer$ = strBuffer$ & (CRLF$ & "!Point outside of circular crooked!" & CRLF$)
+      Else
+        PKpz1 = PK0+sBeta*Rkk*dA0
+        PKpz2 = PKn+sBeta*Rkk*dAn
+        PKpz = (PKpz1+PKpz2)/2
+        deltapz = Rpz-(Rkk-Zsk-Qkk)
+        strTxt$ = MathCstr$(PKpz1,LenFrac)
+        strBuffer$ = strBuffer$ & (CRLF$ & "PKpz1=" & strTxt$)
+        strTxt$ = MathCstr$(deltapz,LenFrac)
+        strBuffer$ = strBuffer$ & ("   Dpz=" & strTxt$)
+        strTxt$ = MathCstr$(PKpz2,LenFrac)
+        strBuffer$ = strBuffer$ & (CRLF$ & "PKpz2=" & strTxt$)
+        strBuffer$ = strBuffer$ & CRLF$
+      End If
+
+      strTxt$ = MathCstr$(PKpz,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PKpz)
+      SetText (hwSelect,strTxt$)
+
+      strTxt$ = MathCstr$(deltapz,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Dpz)
+      SetText (hwSelect,strTxt$)
+
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+    End If
+    If wParam = IDCANCEL Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

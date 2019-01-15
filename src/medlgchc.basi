@@ -1,0 +1,99 @@
+Function DlgCHCD (hDlg AS HWND, Msg, wParam, lParam)
+GLOBAL  hwSelect As HWND
+GLOBAL  strTxt$
+GLOBAL  strBuffer$
+GLOBAL  Rkk As Double
+GLOBAL  Lch As Double
+GLOBAL  L As Double
+GLOBAL  dLch As Double
+GLOBAL  N As Double
+GLOBAL  B As Double
+GLOBAL  Li As Double
+GLOBAL  Bi As Double
+'LenFrac = 4
+
+  Select Case Msg
+    Case WM_INITDIALOG
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Rkk)
+      strTxt$ = MathCstr$(Rkk,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Lch)
+      strTxt$ = MathCstr$(Lch,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_dLch)
+      strTxt$ = MathCstr$(dLch,LenFrac)
+      SetText (hwSelect,strTxt$)
+      Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then
+      strBuffer$ = ""
+      strBuffer$ = strBuffer$ & (CRLF$ & "Calculation Hords size of Circular crooked" & CRLF$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Rkk)
+      strTxt$ = GetText$(hwSelect)
+      Rkk = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Rkk=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Lch)
+      strTxt$ = GetText$(hwSelect)
+      Lch = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   L=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_dLch)
+      strTxt$ = GetText$(hwSelect)
+      dLch = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   dL=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+
+      If ((Rkk>0) And (Lch>0) And (dLch>0)) Then
+      N = 0
+      L = Lch-(Lch*Lch*Lch)/(24*Rkk*Rkk)
+      B = (Lch*Lch)/(8*Rkk)
+      strBuffer$ = ""
+      Do
+        Li = N*dLch
+        strTxt$ = MathCstr$(Li,LenFrac)
+        strBuffer$ = strBuffer$ & (CRLF$ & "Li=" & strTxt$)
+        Bi = B - (Li-Lch/2)*(Li-Lch/2)/(2*Rkk)
+        strTxt$ = MathCstr$(Bi,LenFrac)
+        strBuffer$ = strBuffer$ & ("   Bi=" & strTxt$)
+        N = N+1
+        Li = N*dLch
+      Loop Until (Li>=Lch)
+      strTxt$ = MathCstr$(Lch,LenFrac)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Li=" & strTxt$)
+      strTxt$ = MathCstr$(0,LenFrac)
+      strBuffer$ = strBuffer$ & ("   Bi=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+
+      N = N+1
+      strTxt$ = MathCstr$(N,0)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_N)
+      SetText (hwSelect,strTxt$)
+      strTxt$ = MathCstr$(B,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_B)
+      SetText (hwSelect,strTxt$)
+
+      strBuffer$ = ""
+      strTxt$ = MathCstr$(N,0)
+      strBuffer$ = strBuffer$ & (CRLF$ & "N=" & strTxt$)
+      strTxt$ = MathCstr$(L,LenFrac)
+      strBuffer$ = strBuffer$ & ("   |L|=" & strTxt$)
+      strTxt$ = MathCstr$(B,LenFrac)
+      strBuffer$ = strBuffer$ & ("   B0=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+      End If
+    End If
+
+    If wParam = IDCANCEL Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

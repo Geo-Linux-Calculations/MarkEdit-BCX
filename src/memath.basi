@@ -1,0 +1,130 @@
+CONST   PI = 3.14159265358979
+
+Function MathSign(tVar As Double) As Double
+Dim tRes As Double
+  If tVar<0 Then
+    tRes = -1
+  Else
+    tRes = 1
+  End If
+  Function = tRes
+End Function
+
+Function MathPowI(tVar As Double,tPow As Integer) As Double
+Dim tI As Integer
+Dim tRes As Double
+  tRes = 0
+  If Not(tVar=0) Then
+    tRes = 1
+    If tPow<0 Then
+      For tI = 1 To -tPow
+        tRes = tRes/tVar
+      Next tI
+    Else
+      If tPow>0 Then
+        For tI = 1 To tPow
+          tRes = tRes*tVar
+        Next tI
+      End If
+    End If
+  End If
+  Function = tRes
+End Function
+
+Function MathPI(tVar As Double) As Double
+Dim varPI As Double
+  varPI = 3.14159265358979*tVar
+  Function = varPI
+End Function
+
+Function MathEps(tVar As Double) As Double
+Dim varEps As Double
+  varEps = MathPowI(10,-7)*tVar
+  Function = varEps
+End Function
+
+Function MathRound(tVar As Double,tFix As Integer) As Double
+Dim tDiv As Double
+Dim tRes As Double
+  tDiv = MathPowI(10,tFix)
+  If tVar=0 Then
+    tRes = 0
+  Else
+    tRes = MathSign(tVar)*Int(Abs(tVar)*tDiv+0.5)/tDiv
+  End If
+  Function = tRes
+End Function
+
+Function MathCstr(tVar As Double,tFixN As Integer) As String
+Dim tDiv As Double
+Dim tSign As Double
+Dim tFix As Double
+Dim tFrac As Double
+Dim tRes As Double
+Dim tStrFix$
+Dim tStrFrac$
+Dim tStr$
+  If tFixN > 0 Then
+    tDiv = MathPowI(10,tFixN)
+    tRes = tVar
+    If tVar<0 Then tRes = -tRes
+    tRes = tRes+0.5/tDiv
+    tFix = Int(tRes)
+    tFrac = Int((tRes-tFix)*tDiv)
+    tStrFix$ = Trim$(Str$(tFix))
+    tStrFrac$ = Trim$(Str$(tFrac))
+    If tVar<0 Then tStrFix$ = "-" & tStrFix$
+    Do While (Len(tStrFrac$)<tFixN)
+      tStrFrac$ = "0" & tStrFrac$
+    Loop
+    tStr$ = tStrFix$ & "." & tStrFrac$
+  Else
+    tStr$ = STR$(tVar)
+  End If
+  Function = tStr$
+End Function
+
+Function MathAtan(tY As Double,tX As Double) As Double
+Dim A as Double
+  A = 0
+  If tX=0 Then
+    If tY<0 Then
+      A = MathPI(1.5)
+    Else
+      A = MathPI(0.5)
+    End If
+  Else
+    A = ATN(tY/tX)
+    If tX<0 Then
+      A = A+MathPI(1.0)
+    Else
+      If tY<0 Then
+        A = A+MathPI(2.0)
+      End If
+    End If
+  End If
+  Function = A
+End Function
+
+Function MathRadToGMS(tRad As Double) As String
+Dim tDeg As Double
+Dim tSign As Double
+Dim tGr As Integer
+Dim tMn As Double
+Dim tSk As Double
+Dim tDiv As Double
+Dim tRes$
+'LenFracA = 2
+  tDiv = MathPowI(10,LenFracA)
+  tDeg = tRad*180/MathPI(1.0)
+  tSign = 1
+  If tDeg<0 Then tSign = -1
+  tDeg = tSign*tDeg
+  tDeg = tDeg+0.5/3600/tDiv
+  tGr = Int(tDeg)
+  tMn = Int((tDeg-tGr)*60)
+  tSk = Int((tDeg-tGr-tMn/60)*3600*tDiv)/tDiv
+  tGr = tSign*tGr
+  tRes$ = STR$(tGr) & "'" & STR$(tMn) & "'" & STR$(tSk) & "'"
+  Function=tRes$
+End Function

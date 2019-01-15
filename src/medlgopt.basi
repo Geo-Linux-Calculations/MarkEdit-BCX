@@ -1,0 +1,66 @@
+Function DlgOPT (hDlg AS HWND, Msg, wParam, lParam)
+GLOBAL  hwSelect As HWND
+GLOBAL  strTxt$
+GLOBAL  strBuffer$
+'LenFrac = 4
+'LenFracA = 2
+
+  Select Case Msg
+    Case WM_INITDIALOG
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_LenFrac)
+      strTxt$ = STR$(LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_LenFracA)
+      strTxt$ = STR$(LenFracA)
+      SetText (hwSelect,strTxt$)
+      Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_LenFrac)
+      strTxt$ = GetText$(hwSelect)
+      LenFrac = Val(strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_LenFracA)
+      strTxt$ = GetText$(hwSelect)
+      LenFracA = Val(strTxt$)
+
+      strBuffer$ = ""
+	  If LenFrac<2 Then
+	    LenFrac=2
+        strTxt$ = STR$(LenFrac)
+        strBuffer$ = strBuffer$ & (CRLF$ & "! Len Frac Linear =" & strTxt$ & CRLF$)
+	  End If
+	  If LenFrac>7 Then
+	    LenFrac=7
+        strTxt$ = STR$(LenFrac)
+        strBuffer$ = strBuffer$ & (CRLF$ & "! Len Frac Linear =" & strTxt$ & CRLF$)
+	  End If
+	  If LenFracA<0 Then
+	    LenFracA=0
+        strTxt$ = STR$(LenFracA)
+        strBuffer$ = strBuffer$ & (CRLF$ & "! Len Frac Angles =" & strTxt$ & CRLF$)
+	  End If
+	  If LenFracA>4 Then
+	    LenFracA=4
+        strTxt$ = STR$(LenFracA)
+        strBuffer$ = strBuffer$ & (CRLF$ & "! Len Frac Angles =" & strTxt$ & CRLF$)
+	  End If
+
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_LenFrac)
+      strTxt$ = STR$(LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_LenFracA)
+      strTxt$ = STR$(LenFracA)
+      SetText (hwSelect,strTxt$)
+    End If
+    If wParam = IDCANCEL Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

@@ -1,0 +1,207 @@
+Function InitOpenFileName(hForm AS HWND)                'init the openfilename struct
+  OpenFileName.lStructSize       = sizeof(OPENFILENAME)
+  OpenFileName.hwndOwner         = hForm
+  OpenFileName.hInstance         = GetModuleHandle(0)
+' --------------------------------------------------------------------
+  ! OpenFileName.lpstrFilter =
+  ! "Text Files (*.TXT)\0*.txt\0All Files(*.*)\0*.*\0\0";
+' --------------------------------------------------------------------
+  OpenFileName.lpstrCustomFilter = NULL
+  OpenFileName.nMaxCustFilter    = 0
+  OpenFileName.nFilterIndex      = 0
+  OpenFileName.lpstrFile         = ""
+  OpenFileName.nMaxFile          = MAX_PATH
+  OpenFileName.lpstrFileTitle    = ""
+  OpenFileName.nMaxFileTitle     = MAX_PATH
+  OpenFileName.lpstrInitialDir   = Curdir$
+  OpenFileName.lpstrTitle        = NULL
+  OpenFileName.nFileOffset       = 0
+  OpenFileName.nFileExtension    = 0
+  OpenFileName.lpstrDefExt       = "*.txt"
+  OpenFileName.lCustData         = 0
+  OpenFileName.lpfnHook          = NULL
+  OpenFileName.lpTemplateName    = NULL
+  Function = 0
+End Function
+
+
+FUNCTION PopFileOpenDlg (hForm AS HWND, tFile$, tFileTitle$)
+  tFile$ = ""
+  tFileTitle$ = ""
+  OpenFileName.lpstrTitle = "Open File"    'text for caption of file dialog box
+  OpenFileName.hwndOwner = hForm           'handle of main window
+  OpenFileName.lpstrFile = tFile$          'file to open
+  OpenFileName.lpstrFileTitle = tFileTitle$         'file name
+  OpenFileName.Flags   = OFN_HIDEREADONLY | OFN_CREATEPROMPT 'flags for dialog
+  Function = GetOpenFileName (&OpenFileName)
+End Function
+
+
+Function OpenNewFile(hWnd AS HWND)                         'open file code
+  Local t AS DWORD
+  Dim FileBuf$
+  Dim File$ * 65535                                    'dim buffer for file
+  File$ =""                                            'init buffer
+  t = EXIST ( szFile$ )                                'make sure file exists
+  IF t <> 0  THEN                                      'if it exists
+    Open szFile$ For Input As Fp1                      'open 'er up!
+	SetText (hWnd, "")
+    While Not Eof(Fp1)
+      Line Input Fp1, FileBuf$
+      File$ = FileBuf$ & chr$(13) & chr$(10)  'add line endings
+      AppendText(hWnd, File$)
+    Wend
+    Close Fp1                                         'close the file
+    Free File$                                        'free memory
+	Function = TRUE
+  ELSE
+    MessageBox (hWnd, "File open failed.", NULL, MB_OK )
+	Function = FALSE
+  END IF
+End Function
+
+
+Function PopFileSaveDlg (hWnd AS HWND, tFile$, tFileTitle$)
+  OpenFileName.lpstrTitle        = "Save File"
+  OpenFileName.hwndOwner         = hWnd
+  OpenFileName.lpstrFile         = tFile$
+  OpenFileName.lpstrFileTitle    = tFileTitle$
+  OpenFileName.Flags             = OFN_OVERWRITEPROMPT
+  Function = GetSaveFileName (&OpenFileName)
+End Function
+
+
+Function SaveOpenFile(hWnd AS HWND)
+  Local t AS DWORD
+  Local iLength AS DWORD
+  iLength = GetWindowTextLength (hWnd)
+  Dim File$ * iLength + 1
+  File$ = ""
+  t = GetWindowText (hWnd, File$, iLength+1)
+  IF Not(szFile$="") THEN
+    Open szFile$ For Binary New As Fp1
+    PUT$ Fp1,File$, LEN(File$)
+    Close Fp1
+    Free File$
+    Function = TRUE
+  ELSE
+    MessageBox( hWnd, "File Save failed.", NULL, MB_OK )
+	Function = FALSE
+  END IF
+End Function
+
+
+Function AskAboutSave (hWnd AS HWND)
+  Local afile$
+  afile$ = "File has changed. Save?"
+  iReturn = MsgBox (afile$, "Confirm", 35)
+  Function = iReturn
+End Function
+
+
+Function FileNewMeEdit (hForm As HWND, hEdit As HWND)
+  IF FileTestSaveMeEdit (hForm, hEdit) Then
+    SetText (hEdit,"")
+    szFile$ = ""
+    szFileTitle$ = ""
+    Caption$ = AppMeCaption$
+    SetWindowText (hForm, Caption$)
+    Function = TRUE
+  Else
+    Function = FALSE
+  End If
+End Function
+
+Function FileOpenMeEdit (hForm As HWND, hEdit As HWND)
+  LOCAL bakFile$
+  IF FileTestSaveMeEdit (hForm, hEdit) Then
+'    Caption$ = AppMeCaption$
+'    SetWindowText (hForm, Caption$)
+    InitOpenFileName(hForm)
+	bakFile$ = szFile$
+    PopFileOpenDlg (hForm, szFile$, szFileTitle$)
+    If OpenNewFile(hEdit) Then
+      Caption$ = AppMeCaption$ & " - " & szFile$
+      SetWindowText (hForm, Caption$)
+      Function = TRUE
+    Else
+      szFile$ = bakFile$
+'      Caption$ = AppMeCaption$ & " - " & szFile$
+'      SetWindowText (hForm, Caption$)
+      Function = FALSE
+    End If
+  Else
+    Function = FALSE
+  End IF
+End Function
+
+Function FileSaveDefMeEdit (hForm As HWND, hEdit As HWND)
+  Caption$ = "Mark Editor by AKON (rus)"
+  SetWindowText (hForm, Caption$)
+  If SaveOpenFile(hEdit) Then
+    Caption$ = AppMeCaption$ & " - " & szFile$
+    SetWindowText (hForm, Caption$)
+    Function = TRUE
+  Else
+    Function = FALSE
+  End If
+End Function
+
+Function FileSaveAsMeEdit (hForm As HWND, hEdit As HWND)
+  szFile$ = ""
+  szFileTitle$ = ""
+  InitOpenFileName(hForm)
+  PopFileSaveDlg (hForm, szFile$, szFileTitle$)
+  If SaveOpenFile(hEdit) Then
+    Caption$ = AppMeCaption$ & " - " & szFile$
+    SetWindowText (hForm, Caption$)
+    Function = TRUE
+  Else
+    Function = False
+  End If
+End Function
+
+Function FileSaveMeEdit (hForm As HWND, hEdit As HWND)
+  IF (szFile$ = "") THEN
+    bNeedSave = Not (FileSaveAsMeEdit (hForm, hEdit))
+  ELSE
+    bNeedSave = Not (FileSaveDefMeEdit (hForm, hEdit))
+  END IF
+  Function = TRUE
+End Function
+
+Function FileTestSaveMeEdit (hForm As HWND, hEdit As HWND)
+  Dim i
+  IF bNeedSave = TRUE THEN
+    i = (AskAboutSave (Edit1))
+
+    IF i = IDCANCEL THEN
+      Function = FALSE
+      EXIT FUNCTION
+    END IF
+    IF i = IDNO THEN
+      bSave = FALSE
+    END IF
+    IF i = IDYES THEN
+      bSave = TRUE
+    END IF
+
+    IF bSave THEN
+      bNeedSave = Not (FileSaveMeEdit (hForm, hEdit))
+    END IF
+  END IF
+  Function = TRUE
+End Function
+
+Function FileExitMeEdit (hForm As HWND, hEdit As HWND)
+  If FileTestSaveMeEdit (hForm, hEdit) Then
+    PostQuitMessage(0)                ' Yes .. Terminate program
+    Function = TRUE
+  Else
+    Function = False
+  End If
+End Function
+
+Sub notice(a$)
+  MsgBox a$, "Notice", 64
+End Sub

@@ -1,0 +1,132 @@
+Function DlgCHSD (hDlg AS HWND, Msg, wParam, lParam)
+GLOBAL  hwSelect As HWND
+GLOBAL  strTxt$
+GLOBAL  strBuffer$
+GLOBAL  Rkk As Double
+GLOBAL  Lsk As Double
+GLOBAL  Csk As Double
+GLOBAL  L0 As Double
+GLOBAL  Ln As Double
+GLOBAL  Lch As Double
+GLOBAL  L As Double
+GLOBAL  dLch As Double
+GLOBAL  N As Double
+GLOBAL  B As Double
+GLOBAL  Li As Double
+GLOBAL  dLi As Double
+GLOBAL  Bi As Double
+GLOBAL  X0 As Double
+GLOBAL  Y0 As Double
+GLOBAL  Xn As Double
+GLOBAL  Yn As Double
+GLOBAL  dX As Double
+GLOBAL  dY As Double
+GLOBAL  sinB As Double
+'LenFrac = 4
+
+  Select Case Msg
+    Case WM_INITDIALOG
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Rkk)
+      strTxt$ = MathCstr$(Rkk,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Lsk)
+      strTxt$ = MathCstr$(Lsk,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_dLch)
+      strTxt$ = MathCstr$(dLch,LenFrac)
+      SetText (hwSelect,strTxt$)
+      Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then
+      strBuffer$ = ""
+      strBuffer$ = strBuffer$ & (CRLF$ & "Calculation Hords size of Connecting crooked" & CRLF$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Rkk)
+      strTxt$ = GetText$(hwSelect)
+      Rkk = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Rkk=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Lsk)
+      strTxt$ = GetText$(hwSelect)
+      Lsk = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   L=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_L0)
+      strTxt$ = GetText$(hwSelect)
+      L0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "L0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Ln)
+      strTxt$ = GetText$(hwSelect)
+      Ln = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Ln=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_dLch)
+      strTxt$ = GetText$(hwSelect)
+      dLch = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   dL=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+
+      If ((Rkk>0) And (Lsk>0) And (L0<Ln) And (dLch>0)) Then
+      Csk = Rkk*Lsk
+      Lch = Ln-L0
+      X0 = MarkSCX(L0,Csk)
+      Y0 = MarkSCY(L0,Csk)
+      Xn = MarkSCX(Ln,Csk)
+      Yn = MarkSCY(Ln,Csk)
+      dX = Xn-X0
+      dY = Yn-Y0
+      L = MarkLen(dY,dX)
+      sinB=dY/Lch
+      B = 0
+      N = 0
+      strBuffer$ = ""
+      Do
+        dLi = N*dLch
+        Li = L0+dLi
+        strTxt$ = MathCstr$(Li,LenFrac)
+        strBuffer$ = strBuffer$ & (CRLF$ & "Li=" & strTxt$)
+        Bi = (Y0+dLi*sinB) - MarkSCY(Li,Csk)
+        If (Bi>B) Then
+          B = Bi
+        End If
+        strTxt$ = MathCstr$(Bi,LenFrac)
+        strBuffer$ = strBuffer$ & ("   Bi=" & strTxt$)
+        N = N+1
+        dLi = N*dLch
+      Loop Until (dLi>=Lch)
+      strTxt$ = MathCstr$(Ln,LenFrac)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Li=" & strTxt$)
+      strTxt$ = MathCstr$(0,LenFrac)
+      strBuffer$ = strBuffer$ & ("   Bi=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+
+      N = N+1
+      strTxt$ = MathCstr$(N,0)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_N)
+      SetText (hwSelect,strTxt$)
+      strTxt$ = MathCstr$(B,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_B)
+      SetText (hwSelect,strTxt$)
+
+      strBuffer$ = ""
+      strTxt$ = MathCstr$(N,0)
+      strBuffer$ = strBuffer$ & (CRLF$ & "N=" & strTxt$)
+      strTxt$ = MathCstr$(L,LenFrac)
+      strBuffer$ = strBuffer$ & ("   |L|=" & strTxt$)
+      strTxt$ = MathCstr$(B,LenFrac)
+      strBuffer$ = strBuffer$ & ("   B0=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+      End If
+    End If
+
+    If wParam = IDCANCEL Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

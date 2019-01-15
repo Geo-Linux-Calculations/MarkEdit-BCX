@@ -1,0 +1,51 @@
+Function MarkLen(tY As Double, tX As Double) As Double
+  Function = Sqr(MathPowI(tY,2)+MathPowI(tX,2))
+End Function
+
+Function MarkPK(tY As Double,tX As Double, tSin As Double,tCos As Double) As Double
+  Function = tY*tSin+tX*tCos
+End Function
+
+Function MarkDelta(tY As Double,tX As Double, tSin As Double,tCos As Double) As Double
+  Function = tY*tCos-tX*tSin
+End Function
+
+Function MarkSCFi(tL As Double,tC As Double) As Double
+  Function = MathPowI(tL,2)/(2*tC)
+End Function
+
+Function MarkSCX(tL As Double,tC As Double) As Double
+  Function = tL-MathPowI(tL,5)/(40*MathPowI(tC,2))+MathPowI(tL,9)/(3456*MathPowI(tC,4))
+End Function
+
+Function MarkSCY(tL As Double,tC As Double) As Double
+  Function = MathPowI(tL,3)/(6*tC)-MathPowI(tL,7)/(336*MathPowI(tC,3))+MathPowI(tL,11)/(42240*MathPowI(tC,5))
+End Function
+
+Function MarkSCa1(tL As Double,tC As Double) As Double
+  Function = tL/2-MathPowI(tL,5)/(24*MathPowI(tC,2))-(13*MathPowI(tL,9))/(10080*MathPowI(tC,4))
+End Function
+
+Function MarkSCa(tL As Double,tC As Double) As Double
+  Function = tL/2+MathPowI(tL,5)/(60*MathPowI(tC,2))+(191*MathPowI(tL,9))/(120960*MathPowI(tC,4))
+End Function
+
+Function MarkSCZ(tL As Double,tC As Double) As Double
+  Function = MathPowI(tL,3)/(24*tC)+(13*MathPowI(tL,7))/(2688*MathPowI(tC,3))+(589*MathPowI(tL,11))/(1182720*MathPowI(tC,5))
+End Function
+
+Function MarkSCddX(tL As Double,tC As Double) As Double
+  Function = MathPowI(tL,4)/(8*MathPowI(tC,2))-MathPowI(tL,8)/(384*MathPowI(tC,4))
+End Function
+
+Function MarkSChigh(Xsk As Double, Ysk As Double, FIsk As Double, y0pz As Double) As Double
+  Function = Xsk+(Ysk-y0pz)*tan(FIsk)
+End Function
+
+Function MarkSCLpkK(tL As Double, tC As Double) As Double
+  Function = 1+MathPowI(tL,4)/(60*MathPowI(tC,2))
+End Function
+
+Function MarkSCLpk(tL As Double, tC As Double) As Double
+  Function = tL*MarkSCLpkK(tL, tC)
+End Function

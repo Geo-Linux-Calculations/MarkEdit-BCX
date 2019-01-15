@@ -1,0 +1,16 @@
+IDD_OPTD DIALOG 22, 17, 167, 73
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Mark Editor Options"
+FONT 10, "Helv"
+BEGIN
+    ICON            IDI_MEICON,-1,3,2,32,32
+    LTEXT           "MarkEdit",IDC_ABOUT_Name,30,2,100,8
+    LTEXT           "Truncation of importances:",IDC_Label_Trunc,30,11,100,8
+    LTEXT           "Linears",IDC_Label_LenFrac,30,23,60,12
+    EDITTEXT        IDC_Edit_LenFrac, 90, 23, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Angles",IDC_Label_LenFracA,30,35,60,12
+    EDITTEXT        IDC_Edit_LenFracA, 90, 35, 60, 12, ES_AUTOHSCROLL
+    CONTROL         "",IDC_ABOUT_Line,"Static",SS_BLACKRECT,29,50,138,1
+    PUSHBUTTON      "OK",IDOK,25,55,32,14
+    DEFPUSHBUTTON   "Close",IDCANCEL,100,55,40,14,WS_GROUP
+END
