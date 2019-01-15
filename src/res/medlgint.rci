@@ -1,0 +1,22 @@
+IDD_INTER DIALOG 60, 40, 350, 160
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Interpolation"
+FONT 10, "Helv"
+begin
+    GROUPBOX        "", IDC_Group_Base, 16, 12, 320, 62
+    LTEXT           "Y0", IDC_Label_YY0, 20, 35, 20, 12
+    EDITTEXT        IDC_Edit_YY0, 40, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Yn", IDC_Label_YYn, 120, 35, 20, 12
+    EDITTEXT        IDC_Edit_YYn, 140, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "X0", IDC_Label_XX0, 20, 50, 20, 12
+    EDITTEXT        IDC_Edit_XX0, 40, 50, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Xn", IDC_Label_XXn, 120, 50, 20, 12
+    EDITTEXT        IDC_Edit_XXn, 140, 50, 60, 12, ES_AUTOHSCROLL
+    GROUPBOX        "", IDC_Group_Calc, 16, 80, 320, 32
+    LTEXT           "Yi", IDC_Label_YYi, 20, 90, 25, 12
+    EDITTEXT        IDC_Edit_YYi, 40, 90, 60, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "CALC", IDOK, 120, 90, 60, 14
+    LTEXT           "Xi", IDC_Label_XXi, 220, 90, 20, 12
+    EDITTEXT        IDC_Edit_XXi, 240, 90, 60, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Close", IDCANCEL, 16, 130, 40, 14
+end

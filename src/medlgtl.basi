@@ -1,0 +1,163 @@
+Function DlgTLD (hDlg AS HWND, Msg, wParam, lParam)
+GLOBAL  hwSelect As HWND
+GLOBAL  strTxt$
+GLOBAL  strBuffer$
+GLOBAL  PK0 As Double
+GLOBAL  PKn As Double
+GLOBAL  PKpz As Double
+GLOBAL  PKpz1 As Double
+GLOBAL  PKpz2 As Double
+GLOBAL  dPK As Double
+GLOBAL  sPK As Double
+GLOBAL  deltapz As Double
+GLOBAL  deltapz1 As Double
+GLOBAL  deltapz2 As Double
+GLOBAL  Y0 As Double
+GLOBAL  Yn As Double
+GLOBAL  dY As Double
+GLOBAL  Ypz As Double
+GLOBAL  X0 As Double
+GLOBAL  Xn As Double
+GLOBAL  dX As Double
+GLOBAL  Xpz As Double
+GLOBAL  NamePZ$
+GLOBAL  Lpk As Double
+GLOBAL  sinA As Double
+GLOBAL  cosA As Double
+GLOBAL  Arad As Double
+GLOBAL  Agms$
+LOCAL Buffer$
+'LenFrac = 4
+
+  Select Case Msg
+    Case WM_INITDIALOG
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PK0)
+      strTxt$ = MathCstr$(PK0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Y0)
+      strTxt$ = MathCstr$(Y0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_X0)
+      strTxt$ = MathCstr$(X0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PKn)
+      strTxt$ = MathCstr$(PKn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Yn)
+      strTxt$ = MathCstr$(Yn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xn)
+      strTxt$ = MathCstr$(Xn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_NamePz)
+      strTxt$ = NamePZ$
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Ypz)
+      strTxt$ = MathCstr$(Ypz,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xpz)
+      strTxt$ = MathCstr$(Xpz,LenFrac)
+      SetText (hwSelect,strTxt$)
+      Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then
+      strBuffer$ = ""
+      strBuffer$ = strBuffer$ & (CRLF$ & "Calculation on linear trace" & CRLF$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PK0)
+      strTxt$ = GetText$(hwSelect)
+      PK0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "PK0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Y0)
+      strTxt$ = GetText$(hwSelect)
+      Y0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Y0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_X0)
+      strTxt$ = GetText$(hwSelect)
+      X0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   X0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PKn)
+      strTxt$ = GetText$(hwSelect)
+      PKn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "PKn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Yn)
+      strTxt$ = GetText$(hwSelect)
+      Yn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Yn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xn)
+      strTxt$ = GetText$(hwSelect)
+      Xn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Xn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_NamePz)
+      strTxt$ = GetText$(hwSelect)
+      NamePZ$ = strTxt$
+      strBuffer$ = strBuffer$ & (CRLF$ & "PZ: " & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Ypz)
+      strTxt$ = GetText$(hwSelect)
+      Ypz = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Ypz=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Xpz)
+      strTxt$ = GetText$(hwSelect)
+      Xpz = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Xpz=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer = ""
+      
+      dY = Yn-Y0
+      dX = Xn-X0
+      Lpk = MarkLen(dY,dX)
+      sinA = dY/Lpk
+      cosA = dX/Lpk
+      Arad = MathAtan(dY,dX)
+      Agms$ = MathRadToGMS(Arad)
+      sPK = MathSign(PKn-PK0)
+      dY = Ypz-Y0
+      dX = Xpz-X0
+      dPK = MarkPK(dY,dX,sinA,cosA)
+      PKpz1 = PK0+sPK*dPK
+      deltapz1 = MarkDelta(dY,dX,sinA,cosA)
+      deltapz1 = sPK*deltapz1
+      dY = Ypz-Yn
+      dX = Xpz-Xn
+      dPK = MarkPK(dY,dX,sinA,cosA)
+      PKpz2 = PKn+sPK*dPK
+      deltapz2 = MarkDelta(dY,dX,sinA,cosA)
+      deltapz2 = sPK*deltapz2
+      PKpz = (PKpz1+PKpz2)/2
+      deltapz = (deltapz1+deltapz2)/2
+
+      strTxt$ = MathCstr$(PKpz,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_PKpz)
+      SetText (hwSelect,strTxt$)
+
+      strTxt$ = MathCstr$(deltapz,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_Dpz)
+      SetText (hwSelect,strTxt$)
+
+      strBuffer$ = ""
+      strBuffer$ = strBuffer$ & (CRLF$ & "Apk=" & Agms$)
+      strTxt$ = MathCstr$(Lpk,LenFrac)
+      strBuffer$ = strBuffer$ & ("   Lpk=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      strTxt$ = MathCstr$(PKpz1,LenFrac)
+      strBuffer$ = strBuffer$ & (CRLF$ & "PKpz1=" & strTxt$)
+      strTxt$ = MathCstr$(deltapz1,LenFrac)
+      strBuffer$ = strBuffer$ & ("   Dpz1=" & strTxt$)
+      strTxt$ = MathCstr$(PKpz2,LenFrac)
+      strBuffer$ = strBuffer$ & (CRLF$ & "PKpz2=" & strTxt$)
+      strTxt$ = MathCstr$(deltapz2,LenFrac)
+      strBuffer$ = strBuffer$ & ("   Dpz2=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+    End If
+    If wParam = IDCANCEL Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

@@ -1,0 +1,29 @@
+1 VERSIONINFO
+FILEVERSION 1,0,0,3
+PRODUCTVERSION 1,0,0,3
+FILEOS 0x4
+FILETYPE 0x1
+begin
+	BLOCK "StringFileInfo"
+	begin
+		BLOCK "040904E4"
+		begin
+			VALUE "Comments", "MarkEditor its BCX-project:\t\t  Source Code: MarkEdit.bas,\t\t  Translator: BASIC to C/C++ Translator by Kevin Diggins \251 1999-2010 Version 6.1.6 (2010/08/02),\t\t  Compiler: Pelles C - The Free C/C++ Compiler for Windows \251 1999 - 2010 Pelle Orinius,\t\t  Alt Compiler: Lcc-Win32 \251 2000-2006 Jacob Navia and Q Software Solutions GmbH."
+			VALUE "CompanyName", "Akon & TerraNoNames"
+			VALUE "FileDescription", "MarkEdit: editor and mark calculator"
+			VALUE "FileVersion", "1.0.0.3"
+			VALUE "InternalName", "MarkEdit"
+			VALUE "LegalCopyright", "Copyright\251 2010-2011 AKON & TerraNoNames."
+//			VALUE "LegalTrademarks", ""
+			VALUE "OriginalFilename", "markedit.exe"
+			VALUE "PrivateBuild", "License this product: GNU General Public License"
+			VALUE "ProductName", "MarkEdit"
+			VALUE "ProductVersion", "1.0.0.3"
+			VALUE "SpecialBuild", "made in: Akon&TerraNoNames \t mailto: mykaralw@yandex.ru \t home: http://mykaralw.narod.ru/"
+		end
+	end
+	BLOCK "VarFileInfo"
+	begin
+		VALUE "Translation", 0x0409 0x04B0
+	end
+end

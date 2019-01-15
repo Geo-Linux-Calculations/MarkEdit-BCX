@@ -1,0 +1,90 @@
+Function DlgINTER (hDlg AS HWND, Msg, wParam, lParam)
+GLOBAL  hwSelect As HWND
+GLOBAL  strTxt$
+GLOBAL  strBuffer$
+GLOBAL  YYi As Double
+GLOBAL  YY0 As Double
+GLOBAL  YYn As Double
+GLOBAL  XXi As Double
+GLOBAL  XX0 As Double
+GLOBAL  XXn As Double
+GLOBAL  dX As Double
+GLOBAL  dY As Double
+GLOBAL  mXY As Double
+'LenFrac = 4
+
+  Select Case Msg
+    Case WM_INITDIALOG
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_YY0)
+      strTxt$ = MathCstr$(YY0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_YYn)
+      strTxt$ = MathCstr$(YYn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_XX0)
+      strTxt$ = MathCstr$(XX0,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_XXn)
+      strTxt$ = MathCstr$(XXn,LenFrac)
+      SetText (hwSelect,strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_YYi)
+      strTxt$ = MathCstr$(YYi,LenFrac)
+      SetText (hwSelect,strTxt$)
+      Center (hDlg)
+
+    Case WM_COMMAND
+    If wParam = IDOK Then
+      strBuffer$ = ""
+      strBuffer$ = strBuffer$ & (CRLF$ & "Interpolation" & CRLF$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_YY0)
+      strTxt$ = GetText$(hwSelect)
+      YY0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Y0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_YYn)
+      strTxt$ = GetText$(hwSelect)
+      YYn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Yn=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_XX0)
+      strTxt$ = GetText$(hwSelect)
+      XX0 = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "X0=" & strTxt$)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_XXn)
+      strTxt$ = GetText$(hwSelect)
+      XXn = Val(strTxt$)
+      strBuffer$ = strBuffer$ & ("   Xn=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_YYi)
+      strTxt$ = GetText$(hwSelect)
+      YYi = Val(strTxt$)
+      strBuffer$ = strBuffer$ & (CRLF$ & "Yi=" & strTxt$)
+
+	  dX = XXn-XX0
+	  dY = YYn-YY0
+      If Not(dY=0) Then
+        mXY = dX/dY
+        XXi = XX0+(YYi-YY0)*mXY
+	  Else
+	    XXi = 0
+	  End If
+
+      strTxt$ = MathCstr$(XXi,LenFrac)
+      hwSelect = GetDlgItem(hDlg,IDC_Edit_XXi)
+      SetText (hwSelect,strTxt$)
+
+      strTxt$ = MathCstr$(XXi,LenFrac)
+      strBuffer$ = strBuffer$ & ("   Xi=" & strTxt$)
+      strBuffer$ = strBuffer$ & CRLF$
+      AppendText (Edit1,strBuffer$)
+      strBuffer$ = ""
+    End If
+
+    If wParam = IDCANCEL Then EndDialog (hDlg, 0)
+
+    Case WM_CLOSE
+    EndDialog ( hDlg,0 )
+
+  End Select
+  Function = 0
+End Function

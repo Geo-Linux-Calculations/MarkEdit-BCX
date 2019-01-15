@@ -1,0 +1,45 @@
+IDD_TSD DIALOG 60, 40, 350, 260
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Trace Connecting Crooked (Spiral)"
+FONT 10, "Helv"
+begin
+    GROUPBOX        "", IDC_Group_Base, 16, 12, 320, 92
+    LTEXT           "PK_line", IDC_Label_PK0, 20, 35, 25, 12
+    EDITTEXT        IDC_Edit_PK0, 50, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Y_lin", IDC_Label_Y0, 120, 35, 20, 12
+    EDITTEXT        IDC_Edit_Y0, 140, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "X_lin", IDC_Label_X0, 220, 35, 20, 12
+    EDITTEXT        IDC_Edit_X0, 240, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "PK_nkk", IDC_Label_PKn, 20, 50, 25, 12
+    EDITTEXT        IDC_Edit_PKn, 50, 50, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Y_nkk", IDC_Label_Yn, 120, 50, 20, 12
+    EDITTEXT        IDC_Edit_Yn, 140, 50, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "X_nkk", IDC_Label_Xn, 220, 50, 20, 12
+    EDITTEXT        IDC_Edit_Xn, 240, 50, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Center KK", IDC_Label_Crooked, 20, 65, 100, 12
+    LTEXT           "Y_ck", IDC_Label_Yck, 120, 65, 20, 12
+    EDITTEXT        IDC_Edit_Yck, 140, 65, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "X_ck", IDC_Label_Xck, 220, 65, 20, 12
+    EDITTEXT        IDC_Edit_Xck, 240, 65, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "R_kk", IDC_Label_Rkk, 20, 80, 20, 12
+    EDITTEXT        IDC_Edit_Rkk, 50, 80, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "L_sk", IDC_Label_Lsk, 120, 80, 20, 12
+    EDITTEXT        IDC_Edit_Lsk, 140, 80, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "q", IDC_Label_Qkk, 220, 80, 20, 12
+    EDITTEXT        IDC_Edit_Qkk, 240, 80, 60, 12, ES_AUTOHSCROLL
+    GROUPBOX        "", IDC_Group_Pz, 16, 110, 320, 32
+    LTEXT           "point PZ", IDC_Label_NamePz, 20, 120, 100, 12
+    EDITTEXT        IDC_Edit_NamePz, 60, 120, 40, 12, ES_AUTOHSCROLL
+    LTEXT           "Y_pz", IDC_Label_Ypz, 120, 120, 20, 12
+    EDITTEXT        IDC_Edit_Ypz, 140, 120, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "X_pz", IDC_Label_Xpz, 220, 120, 20, 12
+    EDITTEXT        IDC_Edit_Xpz, 240, 120, 60, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "CALC", IDOK, 16, 150, 60, 14
+    GROUPBOX        "", IDC_Group_Calc, 16, 180, 320, 32
+    LTEXT           "point PZ", IDC_Label_Pz, 20, 190, 100, 12
+    LTEXT           "PK_pz", IDC_Label_PKpz, 115, 190, 25, 12
+    EDITTEXT        IDC_Edit_PKpz, 140, 190, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "d_pz", IDC_Label_Dpz, 220, 190, 20, 12
+    EDITTEXT        IDC_Edit_Dpz, 240, 190, 60, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Close", IDCANCEL, 16, 220, 40, 14
+end

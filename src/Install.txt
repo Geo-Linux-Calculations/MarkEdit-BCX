@@ -1,0 +1,83 @@
+Basic Installation
+==================
+
+   These are generic installation instructions.
+
+   Edit setpath.cmd:
+   
+   SET BCXPATH=...      - path Basic To C Translator (BCX)
+   SET POCCPATH=...     - path Pelles C compiler
+   SET LCCPATH=...      - path Lcc-Win32 compiler
+   SET UPXPATH=...      - path UPX compressor
+   
+   Edit setproject.cmd:
+   
+   set PRJNAME=...      - project name (name main.bas in project)
+   set CC={POCC|LCC}    - name C compiler {PellesC|Lcc-Win32}
+   set RC={TRUE|FALSE}  - {enable|disable} resource compiler
+   set RESPATH=...      - subpath resource 
+   set RESNAME=...      - name resource (name main.rc)
+   set UPX={TRUE|FALSE} - {enable|disable} UPX compress
+   set INSTALLPATH=...  - path for installation
+
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `make' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.
+
+The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code and type
+     `configure' to configure the package for your system.
+
+     Running `configure' takes awhile.  While running, it prints some
+     messages telling which features it is checking for.
+
+  2. Type `make' to compile the package.
+
+  3. Type `make install' to install the programs and any data files and
+     documentation.
+
+  4. You can remove the program binaries and object files from the
+     source code directory by typing `make clean' or `make clean all'.
+
+Compilers and Options
+=====================
+
+   Some systems require unusual options for compilation or linking that
+the `configure' script does not know about.  Run `./configure --help'
+for details on some of the pertinent environment variables.
+
+   You can give `configure' initial values for configuration parameters
+by setting variables in the command line or in the environment.  Here
+is an example:
+
+     ./configure --CC POCC
+     ./configure --CC LCC
+
+Installation Names
+==================
+
+   By default, `make install' will install the package's files in
+"INSTALLPATH".  You can specify an installation `make install "INSTALLPATH"'.
+
+Sharing Defaults
+================
+
+   If you want to set default values for `configure' scripts to share,
+you can create a site shell script called `setproject.cmd' that gives
+default values for variables like `CC' and `INSTALLPATH'.
+
+`configure' Invocation
+======================
+
+   `configure' recognizes the following options to control how it
+operates.
+
+`--help'
+     Print a summary of the options to `configure', and exit.
+
+`configure' also accepts some other, not widely useful, options.  Run
+`configure --help' for more details.
+

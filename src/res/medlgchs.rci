@@ -1,0 +1,24 @@
+IDD_CHSD DIALOG 60, 40, 350, 175
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Chords spiral"
+FONT 10, "Helv"
+begin
+    GROUPBOX        "", IDC_Group_Base, 16, 12, 320, 62
+    LTEXT           "R", IDC_Label_Rkk, 20, 35, 20, 12
+    EDITTEXT        IDC_Edit_Rkk, 40, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "L_sk", IDC_Label_Lsk, 120, 35, 20, 12
+    EDITTEXT        IDC_Edit_Lsk, 140, 35, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "L0", IDC_Label_L0, 20, 50, 20, 12
+    EDITTEXT        IDC_Edit_L0, 40, 50, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "Ln", IDC_Label_Ln, 120, 50, 20, 12
+    EDITTEXT        IDC_Edit_Ln, 140, 50, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "d_L", IDC_Label_dLch, 220, 50, 20, 12
+    EDITTEXT        IDC_Edit_dLch, 240, 50, 60, 12, ES_AUTOHSCROLL
+    GROUPBOX        "", IDC_Group_Calc, 16, 95, 320, 32
+    PUSHBUTTON      "CALC", IDOK, 26, 105, 60, 14
+    LTEXT           "N", IDC_Label_N, 115, 105, 25, 12
+    EDITTEXT        IDC_Edit_N, 140, 105, 60, 12, ES_AUTOHSCROLL
+    LTEXT           "B", IDC_Label_B, 220, 105, 20, 12
+    EDITTEXT        IDC_Edit_B, 240, 105, 60, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Close", IDCANCEL, 16, 145, 40, 14
+end
